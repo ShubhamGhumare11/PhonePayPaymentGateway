@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 
-const MERCHANT_KEY="96434309-7796-489d-8924-ab56988a6076"
+const MERCHANT_KEY="96434309-7796-489d-8924-ab56988a6076" //salt key
 const MERCHANT_ID="PGTESTPAYUAT86"
 
 // const prod_URL = "https://api.phonepe.com/apis/hermes/pg/v1/pay"
@@ -65,7 +65,7 @@ app.post('/create-order', async (req, res) => {
     try {
         
         const response = await axios.request(option);
-        console.log(response.data.data.instrumentResponse.redirectInfo.url)
+        // console.log(response.data.data.instrumentResponse.redirectInfo.url)
          res.status(200).json({msg : "OK", url: response.data.data.instrumentResponse.redirectInfo.url})
     } catch (error) {
         console.log("error in payment", error)
@@ -95,7 +95,19 @@ app.post('/status', async (req, res) => {
     }
 
     axios.request(option).then((response) => {
+
+        console.log(response.data)
+        console.log("Response ........."+response.data.data)
+        console.log("Response ........."+response.data.message)
+
+
         if (response.data.success === true){
+            console.log(response.data)
+            console.log("Response ........."+response.data.data)
+            console.log("Response ........."+response.data.message)
+
+
+            
             return res.redirect(successUrl)
         }else{
             return res.redirect(failureUrl)
